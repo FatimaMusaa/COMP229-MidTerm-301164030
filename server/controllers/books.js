@@ -37,7 +37,7 @@ export function processAddPage(req, res, next) {
         description: req.body.description,
         price: req.body.price
     });
-    booksModel.create(newBooks, (err, Books)=>{
+    booksModel.create(newBooks, (err, books)=>{
         if(err){
             console.error(err);
             res.end(err);
@@ -54,12 +54,12 @@ export function displayEditPage(req, res, next) {
      *****************/
     let id = req.params.id;
 
-    booksModel.findById(id, (err, Books)=>{
+    booksModel.findById(id, (err, books)=>{
         if(err){
             console.error(err);
             res.end(err);
         }
-        res.render('index', {title: 'Edit Books', page: 'books/edit.ejs', books: books})
+        res.render('index', {title: 'Edit Books', page: 'books/edit', books: books})
     });
      
 
@@ -91,4 +91,14 @@ export function processDelete(req, res, next) {
     /*****************
   * ADD CODE HERE *
   *****************/
+
+    let id = req.params.id;
+
+     booksModel.remove({_id:id}, (err)=>{
+        if(err){
+            console.error(err);
+            res.end(err);
+        };
+        res.redirect('/books/list')
+    })
 }
