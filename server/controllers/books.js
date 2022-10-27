@@ -1,5 +1,7 @@
 // define the book model
+import books from '../models/books.js';
 import booksModel from '../models/books.js';
+import router from '../routes/books.js';
 
 /* GET books List page. READ */
 export function displayBookList(req, res, next) {
@@ -19,6 +21,7 @@ export function displayAddPage(req, res, next) {
     /*****************
     * ADD CODE HERE *
     *****************/
+   res.render('index', {title: 'Add Books', page: 'books/edit', books: {} });
 }
 
 // POST process the Book Details page and create a new Book - CREATE
@@ -27,6 +30,20 @@ export function processAddPage(req, res, next) {
     /*****************
      * ADD CODE HERE *
      *****************/
+    let newBooks = booksModel({
+        name: req.body.name,
+        author: req.body.author,
+        published: req.body.published,
+        description: req.body.description,
+        price: req.body.price
+    });
+    booksModel.create(newBooks, (err, Books)=>{
+        if(err){
+            console.error(err);
+            res.end(err);
+        };
+        res.redirect('/books/list')
+    });
 }
 
 // GET the Book Details page in order to edit an existing Book
@@ -35,6 +52,16 @@ export function displayEditPage(req, res, next) {
     /*****************
      * ADD CODE HERE *
      *****************/
+    let id = req.params.id;
+
+    booksModel.findById(id, (err, Books)=>{
+        if(err){
+            console.error(err);
+            res.end(err);
+        }
+        res.render('index', {title: 'Edit Books', page: 'books/edit.ejs', books: books})
+    });
+     
 
 }
 
@@ -43,6 +70,20 @@ export function processEditPage(req, res, next) {
     /*****************
     * ADD CODE HERE *
     *****************/
+     let newBooks = booksModel({
+        name: req.body.name,
+        author: req.body.author,
+        published: req.body.published,
+        description: req.body.description,
+        price: req.body.price
+    });
+    booksModel.create(newBooks, (err)=>{
+        if(err){
+            console.error(err);
+            res.end(err);
+        };
+        res.redirect('/books/list')
+    });
 }
 
 // GET - process the delete by user id
