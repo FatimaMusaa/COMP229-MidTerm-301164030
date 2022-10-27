@@ -1,3 +1,5 @@
+//COMP229-MidTerm-301164030 Musa Patiguli Client App
+
 import createError from 'http-errors';
 import express from 'express';
 

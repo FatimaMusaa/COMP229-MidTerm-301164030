@@ -1,3 +1,5 @@
+//COMP229-MidTerm-301164030 Musa Patiguli Client App
+
 // modules required for routing
 import { Router } from "express";
 
